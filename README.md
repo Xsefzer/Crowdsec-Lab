@@ -1,83 +1,98 @@
-# CrowdSec — Protection collaborative sur Windows
+# Laboratoire CrowdSec — Détection et protection d’un environnement Windows
 
-Laboratoire réalisé dans un environnement contrôlé dans le cadre du cours **Piratage et sécurité**. L’objectif est d’observer la détection d’essais de connexion échoués sur Windows et d’intégrer CrowdSec avec le pare-feu Windows.
-
-> Projet pédagogique. Les tests doivent être réalisés uniquement sur des machines et comptes de laboratoire autorisés.
+> Projet réalisé dans un environnement de laboratoire dans le cadre du cours **Piratage et sécurité**. Il présente la préparation des machines, l’intégration de CrowdSec et du pare-feu Windows, puis l’observation d’événements d’authentification et d’alertes.**Périmètre autorisé :** les essais illustrés ont été réalisés uniquement dans un environnement contrôlé et sur des systèmes de laboratoire.
 
 ## Objectifs
 
-- Préparer un environnement Windows et une machine Kali Linux dédiée aux tests.
+- Préparer un hôte Windows et une machine Kali Linux dédiés aux essais.
 
-- Installer et vérifier CrowdSec ainsi que le bouncer Windows Firewall.
+- Configurer CrowdSec et vérifier l’enregistrement du bouncer Windows Firewall.
 
-- Générer des événements d’échec d’authentification et repérer l’Event ID **4625** dans l’Observateur d’événements.
+- Observer les événements d’échec de connexion Windows, notamment l’Event ID **4625**.
 
-- Observer les alertes remontées dans CrowdSec Console.
+- Corréler les essais avec les événements et alertes visibles dans CrowdSec.
 
-- Évaluer l’envoi d’une notification Telegram.
+- Évaluer le mécanisme de notification Telegram et consigner son état.
 
-## Environnement de laboratoire
+## Environnement
 
-- Windows avec l’Observateur d’événements et le pare-feu Windows
+| Composant | Rôle dans le laboratoire |
+| --- | --- |
+| Windows | Hôte surveillé; comptes de laboratoire, journaux de sécurité et pare-feu Windows |
+| Kali Linux | Machine de test utilisée dans le réseau de laboratoire |
+| CrowdSec | Analyse des événements et remontée d’alertes |
+| Windows Firewall bouncer | Composant d’application des décisions de blocage sur l’hôte Windows |
+| CrowdSec Console | Vue de l’instance et des alertes |
+| Telegram | Canal de notification testé; non fonctionnel lors de cet essai |
 
-- Kali Linux, utilisé comme machine de test dans le laboratoire
+## Déroulement et preuves
 
-- CrowdSec Console
+### 1. Préparation du compte de laboratoire
 
-- CrowdSec Windows Firewall bouncer
+Création d’un compte de test dédié à l’exercice. Un compte distinct limite l’utilisation d’identifiants personnels et facilite l’identification des événements générés pendant les essais.
 
-- Telegram (notification testée; voir les résultats)
+![Création du compte de laboratoire](Screenshots/Creation_user.png)
 
-## Démarche
+Ajout du compte au groupe requis pour l’accès RDP au laboratoire. Cette étape prépare l’accès distant utilisé dans le scénario; elle doit rester limitée à une machine isolée et à un compte de test.
 
-1. Préparer le compte de laboratoire et l’accès RDP sur la machine Windows.
+![Ajout du compte au groupe RDP](Screenshots/Ajout_Au_Grp.png)
 
-1. Démarrer la machine Kali dans le réseau isolé du laboratoire.
+### 2. Préparation de la machine de test
 
-1. Installer/configurer CrowdSec et enregistrer le bouncer du pare-feu Windows.
+La capture montre le terminal de Kali prêt pour le scénario de test. La machine doit communiquer uniquement avec les hôtes prévus dans le réseau de laboratoire.
 
-1. Vérifier l’installation et l’état du bouncer avec les commandes CrowdSec, notamment `cscli version` et `cscli bouncers list`.
+![Terminal Kali prêt pour le laboratoire](Screenshots/Terminal_Ready.png)
 
-1. Générer des tentatives de connexion de test dans l’environnement autorisé.
+### 3. Vérification de CrowdSec et du bouncer
 
-1. Vérifier les événements d’échec de connexion (Event ID **4625**) et les alertes CrowdSec.
+La première vérification en ligne de commande présente la version de CrowdSec installée. Elle permet de confirmer que l’outil est disponible sur l’hôte avant de poursuivre les tests.
 
-1. Tester la notification Telegram et consigner le résultat.
+![Vérification de la version CrowdSec](Screenshots/Commande1.png)
 
-## Résultats et observations
+La seconde vérification affiche la liste des bouncers CrowdSec. Elle sert à confirmer l’enregistrement du bouncer Windows Firewall chargé d’appliquer les décisions de sécurité sur l’hôte.
 
-- La présence du bouncer Windows Firewall a été vérifiée avec `cscli bouncers list`.
+![Vérification de l’enregistrement du bouncer](Screenshots/Commande2.png)
 
-- Le laboratoire vise à corréler les échecs de connexion Windows avec les alertes affichées dans CrowdSec Console.
+### 4. Enregistrement et état de l’instance
 
-- **Notification Telegram : non fonctionnelle lors du test initial.** Le dépannage et une nouvelle validation restent à effectuer.
+La console CrowdSec fournit la vue centralisée de l’instance. Cette capture documente l’interface de gestion utilisée pour suivre l’environnement.
 
-## Captures à ajouter
+![Console CrowdSec](Screenshots/CrowdSec_Console.png)
 
-Ajoutez vos propres captures dans un dossier `Screenshots/`, puis remplacez les noms ci-dessous par les fichiers réels. Masquez les adresses IP, noms d’utilisateur, jetons, clés et autres informations sensibles avant publication.
+Cette capture montre l’état de l’instance Windows dans la console CrowdSec. Elle permet de vérifier que l’hôte apparaît en ligne au moment de l’observation.
 
-- ![Création du compte de laboratoire](screenshots/creation_user.png)
+![Instance Windows visible en ligne dans CrowdSec](Screenshots/Wtatus_Online%28Crowd%29.png)
 
-- `screenshots/kali-ready.png` — environnement Kali prêt
+### 5. Génération et observation des événements
 
-- `screenshots/crowdsec-bouncer.png` — version CrowdSec et bouncer enregistré
+Une série d’essais contrôlés est lancée depuis Kali dans le cadre du laboratoire. La capture documente l’activité de l’outil de test; elle ne doit pas être interprétée comme une autorisation de tester des systèmes tiers.
 
-- `screenshots/crowdsec-console-online.png` — instance visible dans la console
+![Essais d’authentification contrôlés depuis Kali](Screenshots/Hydra_PsswdTest.png)
 
-- `screenshots/event-id-4625.png` — événement d’échec de connexion
+Les journaux Windows permettent ensuite d’examiner les événements produits par les tentatives de connexion. L’Event ID **4625** correspond à un échec d’ouverture de session; l’analyse du contexte et de l’horodatage aide à corréler l’événement avec le scénario de test.
 
-- `screenshots/crowdsec-alert.png` — alerte observée dans la console
+![Journaux Windows associés aux essais](Screenshots/Logs.png)
 
-- `screenshots/telegram-test.png` — résultat du test Telegram, si une capture existe
+### 6. Alertes CrowdSec
 
-## Limites et prochaines étapes
+La console CrowdSec affiche les alertes observées pendant le scénario. Cette preuve illustre la visibilité des événements dans la plateforme après les essais; l’interprétation dépend des événements effectivement reçus par l’instance.
 
-- Dépanner la notification Telegram et documenter la correction, si possible.
+![Alertes observées dans CrowdSec](Screenshots/Alerts_OnCrowd.png)
 
-- Ajouter les versions des composants et les étapes exactes d’installation/configuration.
+## Résultat et limites
 
-- Ajouter des captures d’écran réelles et expurgées; les mentions de captures attendues dans le document source ne sont pas elles-mêmes des preuves de résultat.
+Les captures documentent la préparation des machines, les vérifications CrowdSec, la présence de l’instance dans la console, les essais contrôlés et l’observation des journaux et alertes. La notification Telegram **n’a pas fonctionné lors du test**; elle reste à dépanner et à valider avant de pouvoir être présentée comme opérationnelle.
 
-## Notes de sécurité
+## Améliorations possibles
 
-Ce dépôt ne doit contenir aucun mot de passe, jeton Telegram, clé privée, adresse publique sensible ni donnée personnelle. Utilisez uniquement des identifiants fictifs et un réseau de laboratoire isolé. Ne lancez pas de tests contre des systèmes tiers.
+- Ajouter les versions exactes de Windows, CrowdSec, du bouncer et des autres composants.
+
+- Documenter les étapes d’installation et les paramètres réellement appliqués, sans inclure de secrets.
+
+- Diagnostiquer la notification Telegram et ajouter une preuve uniquement après un test réussi.
+
+- Clarifier les critères de corrélation entre l’événement Windows, l’alerte CrowdSec et toute décision du bouncer.
+
+## Sécurité et confidentialité
+
+Les commandes de test doivent être exécutées uniquement dans un environnement isolé et explicitement autorisé. Ne publiez aucun mot de passe, jeton Telegram, clé privée, adresse publique sensible ou renseignement personnel. Les comptes et identifiants de laboratoire doivent être fictifs.
