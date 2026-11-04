@@ -54,9 +54,9 @@ Laboratoire réalisé dans un environnement contrôlé dans le cadre du cours **
 
 ## Captures à ajouter
 
-Ajoutez vos propres captures dans un dossier `screenshots/`, puis remplacez les noms ci-dessous par les fichiers réels. Masquez les adresses IP, noms d’utilisateur, jetons, clés et autres informations sensibles avant publication.
+Ajoutez vos propres captures dans un dossier `Screenshots/`, puis remplacez les noms ci-dessous par les fichiers réels. Masquez les adresses IP, noms d’utilisateur, jetons, clés et autres informations sensibles avant publication.
 
-- `screenshots/windows-lab-user.png` — préparation du compte et de l’accès RDP (masquer les renseignements personnels)
+- `Creation_user.png` — préparation du compte et de l’accès RDP (masquer les renseignements personnels)
 
 - `screenshots/kali-ready.png` — environnement Kali prêt
 
