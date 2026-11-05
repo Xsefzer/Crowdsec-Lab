@@ -264,7 +264,7 @@ La console affiche les **alertes générées pendant le scénario**. Cette preuv
 **Youssef Lahlali** : Étudiant en administration des réseaux et systèmes
 🔎 À la recherche d'un **stage** en administration systèmes / réseaux / cybersécurité
 
-📧 *ton.courriel@exemple.com* · 💼 *linkedin.com/in/ton-profil*
+📧 *yssflhl.777@proton.me* · 💼 *linkedin.com/in/ton-profil*
 
 ---
 
